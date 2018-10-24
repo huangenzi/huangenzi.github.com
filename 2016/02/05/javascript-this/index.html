@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文介绍了JavaScript中this关键字的用法，有过其他编程经验的人对“this”关键字并不陌生，大部分时候当通过构造函数实例化一个类的实例时，它指新创建的对象。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于Javascript中的this">
+<meta property="og:url" content="http://yoursite.com/2016/02/05/javascript-this/index.html">
+<meta property="og:site_name" content="Cindy&#39;s Blog">
+<meta property="og:description" content="本文介绍了JavaScript中this关键字的用法，有过其他编程经验的人对“this”关键字并不陌生，大部分时候当通过构造函数实例化一个类的实例时，它指新创建的对象。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-28T10:52:38.538Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于Javascript中的this">
+<meta name="twitter:description" content="本文介绍了JavaScript中this关键字的用法，有过其他编程经验的人对“this”关键字并不陌生，大部分时候当通过构造函数实例化一个类的实例时，它指新创建的对象。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/02/05/javascript-this/"/>
+
+
+
+
+
+  <title>关于Javascript中的this | Cindy's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Cindy's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-categories" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/02/05/javascript-this/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cindy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cindy's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">关于Javascript中的this</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-02-05T16:42:06+08:00">
+                2016-02-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文介绍了JavaScript中this关键字的用法，有过其他编程经验的人对“this”关键字并不陌生，大部分时候当通过构造函数实例化一个类的实例时，它指新创建的对象。</p>
+<a id="more"></a>
+<p>“this”关键字是JavaScript中广泛应用的一种特性，但它经常也是这门语言中最容易混淆和误解的特性。“this”的实际意义是什么？它是如何求值的？</p>
+<p>本文试图以清晰的方式澄清和解释这问题的答案。</p>
+<p>有过其他编程经验的人对“this”关键字并不陌生，大部分时候当通过构造函数实例化一个类的实例时，它指新创建的对象。例如，如果我有一个类Boat()，其拥有一个moveBoat()方法，当在moveBoat方法中引用“this”的时候，我们实际上访问的基于Boat类新创建的对象。</p>
+<p>在JavaScript中，当通过“new”关键字调用构造函数时，我们也有this概念，然而，这并不是唯一的规则，并且“this”经常在不同的执行上下文中引用到不同的对象。如果你不熟悉JavaScript中的执行上下文，我建议你阅读我的另一篇文章。</p>
+<p>一些JavaScript的例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 全局作用域</span></span><br><span class="line">foo = <span class="string">'abc'</span>;</span><br><span class="line">alert(foo); <span class="comment">// abc</span></span><br><span class="line"><span class="keyword">this</span>.foo = <span class="string">'def'</span>;</span><br><span class="line">alert(foo); <span class="comment">// def</span></span><br></pre></td></tr></table></figure>
+<p>每当在全局作用域中使用“this”关键字时（没在函数内部），它通常指向全局对象（global object）。现在让我们看看函数内部“this”的值：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> boat = &#123;</span><br><span class="line">    size: <span class="string">'normal'</span>,</span><br><span class="line">    boatInfo: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        alert(<span class="keyword">this</span> === boat);</span><br><span class="line">        alert(<span class="keyword">this</span>.size);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">boat.boatInfo(); <span class="comment">// true, 'normal'</span></span><br><span class="line"><span class="keyword">var</span> bigBoat = &#123;</span><br><span class="line">    size: <span class="string">'big'</span></span><br><span class="line">&#125;;</span><br><span class="line">bigBoat.boatInfo = boat.boatInfo;</span><br><span class="line">bigBoat.boatInfo(); <span class="comment">// false, 'big'</span></span><br></pre></td></tr></table></figure>
+<p>那么上面的“this”如何确定？我们看到上面的boat对象有一个size属性和一个boatInfo方法。在boatInfo()内部，会弹出this的值是否是boat对象，也会弹出this的size属性。所以我们执行boat.boatInfo()，我们看见this的值是boat对象和boat的size属性值是normal。</p>
+<p>然后我们创建另一个对象bigBoat，也有一个size属性是big。然而，bigBoat对象没有boatInfo方法，所以我们从boat对象拷贝方法 bigBoat.boatInfo = boat.boatInfo。现在，当我们调用bigBoat.boatInfo()并进入函数时，我们看到this不等于boat，并且现在size属性值是big。为什么会这样？boatInfo()内部的this值是如何改变的？</p>
+<p>你必须意识到的第一件事是函数内部this的值不是静态的，每次你调用一个函数它总是重新求值，但这一过程发生在函数代码实际执行之前。函数内部的this值实际由函数被调用的父作用域提供，更重要的是，依赖实际函数的语法。</p>
+<p>当函数被调用时，我们看紧邻括号“()”的左边。如果在括号的左侧存在一个引用，传递给调用函数的“this”值是引用属于的对象，否则this的值将是全局对象。让我们看一个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    alert(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br><span class="line">bar(); <span class="comment">// global - 因为bar方法被调用时属于 global 对象</span></span><br><span class="line"><span class="keyword">var</span> foo = &#123;</span><br><span class="line">    baz: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        alert(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">foo.baz(); <span class="comment">// foo - 因为baz()方法被调用时术语foo对象</span></span><br></pre></td></tr></table></figure>
+<p>如果this就这么简单，那上面的代码就足够了。我们可以进一步使事情变得复杂，通过不同的调用语法，改变相同函数内部“this”的值。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> foo = &#123;</span><br><span class="line">    baz: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        alert(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">foo.baz(); <span class="comment">// foo - 因为baz被调用时属于foo对象</span></span><br><span class="line"><span class="keyword">var</span> anotherBaz = foo.baz;</span><br><span class="line">anotherBaz(); <span class="comment">// global - 因为anotherBaz()被调用时术语global对象</span></span><br></pre></td></tr></table></figure></p>
+<p>我们看到baz()内部的“this”值每次都不同，这是因为调用的语法不同。现在，让我们看看深度嵌套对象内部“this”的值：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> anum = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">var</span> foo = &#123;</span><br><span class="line">    anum: <span class="number">10</span>,</span><br><span class="line">    baz: &#123;</span><br><span class="line">        anum: <span class="number">20</span>,</span><br><span class="line">        bar: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>.anum);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">foo.baz.bar(); <span class="comment">// 20 - 因为()的左边是bar，而它被调用时属于baz对象</span></span><br><span class="line"><span class="keyword">var</span> hello = foo.baz.bar;</span><br><span class="line">hello(); <span class="comment">// 0 - 因为()的左边是hello，而它被调用时属于global对象</span></span><br></pre></td></tr></table></figure>
+<p>另一个经常被问的问题是事件处理程序内部的“this”关键字如何求值？答案是事件处理程序内部的“this”总是引用触发事件的元素。让我们看一个例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id="test"&gt;I am an element with id #test&lt;/div&gt;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">doAlert</span>(<span class="params"></span>) </span>&#123; </span><br><span class="line">    alert(<span class="keyword">this</span>.innerHTML); </span><br><span class="line">&#125;</span><br><span class="line">doAlert(); <span class="comment">// undefined</span></span><br><span class="line"><span class="keyword">var</span> myElem = <span class="built_in">document</span>.getElementById(<span class="string">'test'</span>); </span><br><span class="line">myElem.onclick = doAlert;</span><br><span class="line">alert(myElem.onclick === doAlert); <span class="comment">// true </span></span><br><span class="line">myElem.onclick(); <span class="comment">// I am an element</span></span><br></pre></td></tr></table></figure></p>
+<p>当doAlert()第一次调用时，弹出的值是undefined，由于doAlert()属于global对象。然后我们写myElem.onclick = doAlert。这意味这当onclick被出发时，它作为myElem的一个方法，“this”的值将是myElem元素。<br>“this”的值也可以通过call和apply手动设置，这超过我们所讨论的范围。还感兴趣的是，当调用构造函数时，“this”引用新创建的实例对象。原因是因为构造函数前面的“new”关键字，它创建一个新对象，构造函数内部的“this”总引用新创建的对象。</p>
+<p>总结<br></p>
+<p>希望上文澄清了“this”关键字的误解，并且能知道“this”的正确值。<br>“this”的值不是静态的，值得确定依赖于函数被如何调用。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/05/css-unit/" rel="next" title="css几种常见长度单位">
+                <i class="fa fa-chevron-left"></i> css几种常见长度单位
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/03/06/css-position/" rel="prev" title="说一说position属性">
+                说一说position属性 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Cindy</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cindy</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three-waves.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

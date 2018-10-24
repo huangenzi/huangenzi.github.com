@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言： web开发中px可谓是无处不在，现在移动端开发很火爆，相信大家除了px经常听到ppi,dpi,drp这些概念，那么这些到底是什么呢，下面先看一下具体定义">
+<meta property="og:type" content="article">
+<meta property="og:title" content="移动端1px边框实现">
+<meta property="og:url" content="http://yoursite.com/2017/01/04/js-drp/index.html">
+<meta property="og:site_name" content="Cindy&#39;s Blog">
+<meta property="og:description" content="前言： web开发中px可谓是无处不在，现在移动端开发很火爆，相信大家除了px经常听到ppi,dpi,drp这些概念，那么这些到底是什么呢，下面先看一下具体定义">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-31T07:30:03.374Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="移动端1px边框实现">
+<meta name="twitter:description" content="前言： web开发中px可谓是无处不在，现在移动端开发很火爆，相信大家除了px经常听到ppi,dpi,drp这些概念，那么这些到底是什么呢，下面先看一下具体定义">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/01/04/js-drp/"/>
+
+
+
+
+
+  <title>移动端1px边框实现 | Cindy's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Cindy's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-categories" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/04/js-drp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cindy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cindy's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">移动端1px边框实现</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-04T20:30:06+08:00">
+                2017-01-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="前言："><a href="#前言：" class="headerlink" title="前言："></a><strong>前言：</strong></h3><blockquote>
+<p>web开发中px可谓是无处不在，现在移动端开发很火爆，相信大家除了px经常听到ppi,dpi,drp这些概念，那么这些到底是什么呢，下面先看一下具体定义</p>
+</blockquote>
+<a id="more"></a>
+<p><strong>px</strong> :(pixel)像素，是电子屏幕上图像显示的基本单位</p>
+<p><strong>pt</strong> :(point)点，印刷行业常用单位，等于1/72英寸</p>
+<p><strong>ppi</strong> :(pixel per inch)，每英寸像素数，该值越高，则屏幕越细腻</p>
+<p><strong>dpi</strong> :(dot per inch)，每英寸多少点，该值越高，则图片越细腻</p>
+<p>下面在介绍dpr之前，我们先看一下像素的分类<br>实际上像素分为两种，设备像素和CSS像素</p>
+<ul>
+<li>设备像素(device independent pixels): 设备屏幕的物理像素，任何设备的物理像素的数量都是固定的</li>
+<li>CSS像素(CSS pixels): 又称为逻辑像素，是为web开发者创造的，在CSS和javascript中使用的一个抽象的层，每一个CSS声明和几乎所有的javascript属性都使用CSS像素，因此实际上从来用不上设备像素，唯一的例外是screen.width/height</li>
+</ul>
+<p><strong>dpr</strong> : 设备像素比DPR(devicePixelRatio)是默认缩放为100%的情况下，设备像素和CSS像素的比值<br>即 DPR = 设备像素 ／ CSS像素（某一方向上）</p>
+<p>其实早先没有DPR的概念，但是随着技术的发展，移动设备的屏幕像素密度越来越高，从iphone4开始，苹果手机用的都是retina屏幕，iphone4的分辨率提高了一倍，但屏幕尺寸却没有变化，这意味着同样大小的屏幕上像素多了一倍，于是DPR = 2<br>可以用javascript属性window.devicePixelRatio来获取设备像素比DPR</p>
+<p>这里说一下苹果各个产品的DPR<br>4, 4s, 5, 5s, 6, 6s, 7为dpr=2<br>6+, 6s+, 7+为dpr=2<br>ipad上同样也只有dpr2和3两种屏幕</p>
+<p>正是因为这个dpr所以会有移动端1像素的问题<br>下面说一下解决方案</p>
+<p>CSS解决方案</p>
+<p>从IOS8开始支持0.5px，所以我们可以使用如下的css解决<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span>&#123;</span><br><span class="line">	<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;</span><br><span class="line">&#125;    </span><br><span class="line">@<span class="keyword">media</span> (-webkit-min-device-pixel-ratio: <span class="number">2</span>) &#123;</span><br><span class="line">    <span class="selector-tag">div</span>&#123;</span><br><span class="line">		<span class="attribute">border</span>:<span class="number">0.5px</span> solid <span class="number">#000</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>也可以用transform:scale(0.5)<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span>&#123;</span><br><span class="line">	<span class="attribute">border</span>:<span class="number">1px</span> solid <span class="number">#000</span>;</span><br><span class="line">&#125;    </span><br><span class="line">@<span class="keyword">media</span> (-webkit-min-device-pixel-ratio: <span class="number">2</span>) &#123;</span><br><span class="line">		<span class="selector-tag">-</span></span><br><span class="line">    <span class="selector-tag">div</span>&#123;</span><br><span class="line">		<span class="attribute">height</span>:<span class="number">1px</span>;</span><br><span class="line">		<span class="attribute">-webkit-transform</span>: <span class="built_in">scaleY</span>(0.5);</span><br><span class="line">		<span class="attribute">-webkit-transform-origin</span>:<span class="number">0</span> <span class="number">0</span>;</span><br><span class="line">		<span class="attribute">overflow</span>: hidden;</span><br><span class="line">		<span class="attribute">background</span>: <span class="number">#000</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>box-shadow来实现<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">-webkit-box-shadow</span><span class="selector-pseudo">:0</span> 1<span class="selector-tag">px</span> 1<span class="selector-tag">px</span> <span class="selector-tag">-1px</span> <span class="selector-tag">rgba</span>(0, 0, 0, 0<span class="selector-class">.5</span>);</span><br></pre></td></tr></table></figure></p>
+<p>JS解决方案</p>
+<p>判断是否支持0.5px的边框，是的话，加上hairlines的类名（代码放在body内）<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="built_in">window</span>.devicePixelRatio &amp;&amp; devicePixelRatio &gt;= <span class="number">2</span>) &#123;</span><br><span class="line">	<span class="keyword">var</span> testElem = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>);</span><br><span class="line">	testElem.style.border = <span class="string">'.5px solid #000'</span>;</span><br><span class="line">	<span class="built_in">document</span>.body.appendChild(testElem);</span><br><span class="line">	<span class="comment">//当div存在</span></span><br><span class="line">	<span class="keyword">if</span> (testElem.offsetHeight == <span class="number">1</span>)&#123;</span><br><span class="line">	  <span class="built_in">document</span>.querySelector(<span class="string">'html'</span>).classList.add(<span class="string">'hairlines'</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//添加完hairlines类名后，则删除div</span></span><br><span class="line">	<span class="built_in">document</span>.body.removeChild(testElem);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>meta解决方案<br>移动端我们必须写viewport的meta,但是如果写成下面这样，将永远无法写出1px宽度的东西<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>initail-scale表示初始时候的缩放比，maximum-scale是最大缩放比，minmum-scale是最小缩放比，如上代码都设置为了1，所以整个页面都无法缩放，所以dpr为2的屏幕上css的一个像素对应2个物理像素，因此我们永远写不出1px的东西，其实我们可以这么设置meta<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no"</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>另一种方案，hotcss.js<br><a href="http://imochen.github.io/hotcss/" target="_blank" rel="noopener">http://imochen.github.io/hotcss/</a><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">window, document</span>) </span>&#123;</span><br><span class="line"><span class="meta">    'use strict'</span>;</span><br><span class="line">    <span class="comment">//给hotcss开辟个命名空间，别问我为什么，我要给你准备你会用到的方法，免得用到的时候还要自己写。</span></span><br><span class="line">    <span class="keyword">var</span> hotcss = &#123;&#125;;</span><br><span class="line">    (<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">//根据devicePixelRatio自定计算scale</span></span><br><span class="line">        <span class="comment">//可以有效解决移动端1px这个世纪难题。</span></span><br><span class="line">        <span class="keyword">var</span> viewportEl = <span class="built_in">document</span>.querySelector(<span class="string">'meta[name="viewport"]'</span>),</span><br><span class="line">            hotcssEl = <span class="built_in">document</span>.querySelector(<span class="string">'meta[name="hotcss"]'</span>),</span><br><span class="line">            dpr = <span class="built_in">window</span>.devicePixelRatio || <span class="number">1</span>,</span><br><span class="line">            maxWidth = <span class="number">540</span>,</span><br><span class="line">            designWidth = <span class="number">0</span>;</span><br><span class="line">        dpr = dpr &gt;= <span class="number">3</span> ? <span class="number">3</span> : (dpr &gt;= <span class="number">2</span> ? <span class="number">2</span> : <span class="number">1</span>);</span><br><span class="line">        <span class="comment">//允许通过自定义name为hotcss的meta头，通过initial-dpr来强制定义页面缩放</span></span><br><span class="line">        <span class="keyword">if</span> (hotcssEl) &#123;</span><br><span class="line">            <span class="keyword">var</span> hotcssCon = hotcssEl.getAttribute(<span class="string">'content'</span>);</span><br><span class="line">            <span class="keyword">if</span> (hotcssCon) &#123;</span><br><span class="line">                <span class="keyword">var</span> initialDprMatch = hotcssCon.match(<span class="regexp">/initial-dpr=([\d.]+)/</span>);</span><br><span class="line">                <span class="keyword">if</span> (initialDprMatch) &#123;</span><br><span class="line">                    dpr = <span class="built_in">parseFloat</span>(initialDprMatch[<span class="number">1</span>]);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">var</span> maxWidthMatch = hotcssCon.match(<span class="regexp">/max-width=([\d.]+)/</span>);</span><br><span class="line">                <span class="keyword">if</span> (maxWidthMatch) &#123;</span><br><span class="line">                    maxWidth = <span class="built_in">parseFloat</span>(maxWidthMatch[<span class="number">1</span>]);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">var</span> designWidthMatch = hotcssCon.match(<span class="regexp">/design-width=([\d.]+)/</span>);</span><br><span class="line">                <span class="keyword">if</span> (designWidthMatch) &#123;</span><br><span class="line">                    designWidth = <span class="built_in">parseFloat</span>(designWidthMatch[<span class="number">1</span>]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">document</span>.documentElement.setAttribute(<span class="string">'data-dpr'</span>, dpr);</span><br><span class="line">        hotcss.dpr = dpr;</span><br><span class="line">        <span class="built_in">document</span>.documentElement.setAttribute(<span class="string">'max-width'</span>, maxWidth);</span><br><span class="line">        hotcss.maxWidth = maxWidth;</span><br><span class="line">        <span class="keyword">if</span> (designWidth) &#123;</span><br><span class="line">            <span class="built_in">document</span>.documentElement.setAttribute(<span class="string">'design-width'</span>, designWidth);</span><br><span class="line">            hotcss.designWidth = designWidth;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">var</span> scale = <span class="number">1</span> / dpr,</span><br><span class="line">            content = <span class="string">'width=device-width, initial-scale='</span> + scale + <span class="string">', minimum-scale='</span> + scale + <span class="string">', maximum-scale='</span> + scale + <span class="string">', user-scalable=no'</span>;</span><br><span class="line">        <span class="keyword">if</span> (viewportEl) &#123;</span><br><span class="line">            viewportEl.setAttribute(<span class="string">'content'</span>, content);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            viewportEl = <span class="built_in">document</span>.createElement(<span class="string">'meta'</span>);</span><br><span class="line">            viewportEl.setAttribute(<span class="string">'name'</span>, <span class="string">'viewport'</span>);</span><br><span class="line">            viewportEl.setAttribute(<span class="string">'content'</span>, content);</span><br><span class="line">            <span class="built_in">document</span>.head.appendChild(viewportEl);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)();</span><br><span class="line">    hotcss.px2rem = <span class="function"><span class="keyword">function</span>(<span class="params">px, designWidth</span>) </span>&#123;</span><br><span class="line">        <span class="comment">//预判你将会在JS中用到尺寸，特提供一个方法助你在JS中将px转为rem。就是这么贴心。</span></span><br><span class="line">        <span class="keyword">if</span> (!designWidth) &#123;</span><br><span class="line">            <span class="comment">//如果你在JS中大量用到此方法，建议直接定义 hotcss.designWidth 来定义设计图尺寸;</span></span><br><span class="line">            <span class="comment">//否则可以在第二个参数告诉我你的设计图是多大。</span></span><br><span class="line">            designWidth = <span class="built_in">parseInt</span>(hotcss.designWidth, <span class="number">10</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">parseInt</span>(px, <span class="number">10</span>)  <span class="number">320</span> / designWidth / <span class="number">20</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    hotcss.rem2px = <span class="function"><span class="keyword">function</span>(<span class="params">rem, designWidth</span>) </span>&#123;</span><br><span class="line">        <span class="comment">//新增一个rem2px的方法。用法和px2rem一致。</span></span><br><span class="line">        <span class="keyword">if</span> (!designWidth) &#123;</span><br><span class="line">            designWidth = <span class="built_in">parseInt</span>(hotcss.designWidth, <span class="number">10</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//rem可能为小数，这里不再做处理了</span></span><br><span class="line">        <span class="keyword">return</span> rem  <span class="number">20</span>  designWidth / <span class="number">320</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    hotcss.mresize = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">//对，这个就是核心方法了，给HTML设置font-size。</span></span><br><span class="line">        <span class="keyword">var</span> innerWidth = <span class="built_in">document</span>.documentElement.getBoundingClientRect().width || <span class="built_in">window</span>.innerWidth;</span><br><span class="line">        <span class="keyword">if</span> (hotcss.maxWidth &amp;&amp; (innerWidth / hotcss.dpr &gt; hotcss.maxWidth)) &#123;</span><br><span class="line">            innerWidth = hotcss.maxWidth  hotcss.dpr;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!innerWidth) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">document</span>.documentElement.style.fontSize = (innerWidth * <span class="number">20</span> / <span class="number">320</span>) + <span class="string">'px'</span>;</span><br><span class="line">        hotcss.callback &amp;&amp; hotcss.callback();</span><br><span class="line">    &#125;;</span><br><span class="line">    hotcss.mresize();</span><br><span class="line">    <span class="comment">//直接调用一次</span></span><br><span class="line">    <span class="built_in">window</span>.addEventListener(<span class="string">'resize'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        clearTimeout(hotcss.tid);</span><br><span class="line">        hotcss.tid = setTimeout(hotcss.mresize, <span class="number">33</span>);</span><br><span class="line">    &#125;, <span class="literal">false</span>);</span><br><span class="line">    <span class="comment">//绑定resize的时候调用</span></span><br><span class="line">    <span class="built_in">window</span>.addEventListener(<span class="string">'load'</span>, hotcss.mresize, <span class="literal">false</span>);</span><br><span class="line">    <span class="comment">//防止不明原因的bug。load之后再调用一次。</span></span><br><span class="line">    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        hotcss.mresize();</span><br><span class="line">        <span class="comment">//防止某些机型怪异现象，异步再调用一次</span></span><br><span class="line">    &#125;, <span class="number">333</span>)</span><br><span class="line">    <span class="built_in">window</span>.hotcss = hotcss;</span><br><span class="line">    <span class="comment">//命名空间暴露给你，控制权交给你，想怎么调怎么调。</span></span><br><span class="line">&#125;)(<span class="built_in">window</span>, <span class="built_in">document</span>);</span><br></pre></td></tr></table></figure></p>
+<p>参考链接：<br><a href="http://www.tuicool.com/articles/yUVvYfr" target="_blank" rel="noopener">http://www.tuicool.com/articles/yUVvYfr</a><br><a href="http://www.jianshu.com/p/221bebfae266" target="_blank" rel="noopener">http://www.jianshu.com/p/221bebfae266</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/16/flex-compatibility/" rel="next" title="flex兼容性问题">
+                <i class="fa fa-chevron-left"></i> flex兼容性问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/13/js-password/" rel="prev" title="禁止浏览器记住密码">
+                禁止浏览器记住密码 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Cindy</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言："><span class="nav-number">1.</span> <span class="nav-text">前言：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cindy</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three-waves.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
